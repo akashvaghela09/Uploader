@@ -18,13 +18,14 @@ const initialState = {
     isLoading: false,
     isError: false,
     server_name: "",
-    upload_url: "",
     download_url: "",
     progress: 0,
-    delete_status: ""
+    delete_status: "",
+    code: ""
 }
 
 const reducer = (state = initialState, {type, payload}) => {
+
     switch (type) {
         case POST_FILE_REQUEST:
             return {
@@ -33,7 +34,7 @@ const reducer = (state = initialState, {type, payload}) => {
             }
         case POST_FILE_SUCCESS:
             return {
-                upload_url: payload,
+                code: payload,
                 isLoading: false,
                 isError: false
             }

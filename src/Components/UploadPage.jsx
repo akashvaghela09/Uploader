@@ -1,14 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const UploadPage = () => {
     const dispatch = useDispatch()
     const server_name = useSelector((state) => state.app.server_name)
     const progress = useSelector((state) => state.app.progress)
-    const isLoading = useSelector((state) => state.app.isLoading)
     const isError = useSelector((state) => state.app.isError)
+    
+    let [code, setCode] = useState("")
+    let [adminCode, setAdminCode] = useState("")
+    let [md5, setMD5] = useState("")
+    let [fileName, setFileName] = useState("")
+    let [directLink, setDirectLink] = useState("")
+
     let file;
     let formData = new FormData();
 
@@ -28,15 +35,13 @@ const UploadPage = () => {
         }
         )
         .then((res)=> {
-            let postResponse = {
-            "fileName" : res.data.data.fileName,
-            "downloadPage" : res.data.data.downloadPage,
-            "directLink" : res.data.data.directLink,
-            "adminCode" : res.data.data.adminCode,
-            "code" : res.data.data.code,
-            }
+            setMD5(res.data.data.md5)
+            setAdminCode(res.data.data.adminCode)
+            setCode(res.data.data.code)
+            setFileName(res.data.data.fileName)
+            setDirectLink(res.data.data.directLink)
 
-            const postFileAction = postFileSuccess(postResponse)
+            const postFileAction = postFileSuccess(res.data.data)
             dispatch(postFileAction)
         })
         .catch((err)=> {
@@ -73,7 +78,16 @@ const UploadPage = () => {
             {
                 isError && <h1>Something went wrong ...</h1>
             }
-            {/* <button onClick={() =>  navigator.clipboard.writeText(server_name)}>Copy Link</button> */}
+            {
+                code && 
+                <div>
+                    <a href={directLink} target="_blank" rel="noopener noreferrer">Download</a><br/><br/>
+                    <button onClick={() =>  navigator.clipboard.writeText(`http://localhost:3000/download/${code}/${md5}/${fileName}`)}>Copy Link</button>
+                    <h2>Code: {code}</h2>
+                    <h2>AdminCode: {adminCode}</h2>
+                    <h2>md5: {md5}</h2>
+                </div> 
+            }
         </div>
     )
 }
