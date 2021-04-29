@@ -82,10 +82,9 @@ const UploadPage = () => {
                 code && 
                 <div>
                     <a href={directLink} target="_blank" rel="noopener noreferrer">Download</a><br/><br/>
-                    <button onClick={() =>  navigator.clipboard.writeText(`http://localhost:3000/download/${code}/${md5}/${fileName}`)}>Copy Link</button>
+                    <button onClick={() =>  navigator.clipboard.writeText(`https://uploder.vercel.app/download/${code}/${md5}/${fileName}`)}>Copy Link</button>
                     <h2>Code: {code}</h2>
                     <h2>AdminCode: {adminCode}</h2>
-                    <h2>md5: {md5}</h2>
                 </div> 
             }
         </div>
