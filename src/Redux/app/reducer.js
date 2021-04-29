@@ -8,7 +8,10 @@ import {
         GET_FILE_REQUEST,
         GET_FILE_SUCCESS,
         GET_FILE_FAILURE,
-        GET_PROGRESS
+        GET_PROGRESS,
+        DELETE_FILE_SUCCESS,
+        DELETE_FILE_FAILURE,
+        DELETE_FILE_REQUEST
 } from './actionType'
 
 const initialState = {
@@ -17,7 +20,8 @@ const initialState = {
     server_name: "",
     upload_url: "",
     download_url: "",
-    progress: 0
+    progress: 0,
+    delete_status: ""
 }
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -76,8 +80,25 @@ const reducer = (state = initialState, {type, payload}) => {
         case GET_PROGRESS:
             return {
                 progress: payload,
+                isError: false
+            }
+        case DELETE_FILE_SUCCESS:
+            return {
+                delete_status: payload,
+                isLoading: false,
+                isError: false
+            }
+        case DELETE_FILE_FAILURE:
+            return {
+                ...state,
                 isLoading: false,
                 isError: true
+            }
+        case DELETE_FILE_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                isError: false
             }
         default:
             return state

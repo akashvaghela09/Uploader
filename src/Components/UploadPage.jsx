@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
@@ -7,10 +7,13 @@ const UploadPage = () => {
     const dispatch = useDispatch()
     const server_name = useSelector((state) => state.app.server_name)
     const progress = useSelector((state) => state.app.progress)
+    const isLoading = useSelector((state) => state.app.isLoading)
+    const isError = useSelector((state) => state.app.isError)
+    let file;
     let formData = new FormData();
 
     const handleFileUpload = (e) => {
-        let file = e.target.files[0];
+        file = e.target.files[0];
         formData.append("file", file);
     }
     
@@ -35,14 +38,11 @@ const UploadPage = () => {
 
             const postFileAction = postFileSuccess(postResponse)
             dispatch(postFileAction)
-
-            console.log(`File Uploaded on "${server_name}" Server`);
         })
         .catch((err)=> {
             const serverErr = postFileFailure()
             dispatch(serverErr)
         })
-
     }
 
     const getActiveServer = () => {
@@ -58,18 +58,21 @@ const UploadPage = () => {
             dispatch(serverErr)
         })
     }
-    
-    
-    useEffect(() => {
-        getActiveServer()
-    }, []);
 
     return (
         <div>
             <h1>Upload Page</h1>
-            <input type="file" multiple={false} onChange={handleFileUpload}/><br/><br/>
+            <input type="file" multiple={false} onChange={handleFileUpload} onClick={() => getActiveServer()}/><br/><br/>
             <button onClick={uploadToServer}>Upload</button><br/><br/>
-            <progress value={progress} max="100"/>
+            {
+                progress > 0 && progress < 100 ? <progress value={progress} max="100"/> : null
+            }
+            {
+                progress == 100 && <h2>File Uploaded</h2>
+            }
+            {
+                isError && <h1>Something went wrong ...</h1>
+            }
             {/* <button onClick={() =>  navigator.clipboard.writeText(server_name)}>Copy Link</button> */}
         </div>
     )

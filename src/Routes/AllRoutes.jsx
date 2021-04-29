@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { DeletePage } from '../Components/DeletePage';
 import { UploadPage } from '../Components/UploadPage';
 
 const Allroutes = () => {
@@ -8,6 +9,9 @@ const Allroutes = () => {
             <Switch>
                 <Route exact path="/">
                     <UploadPage />
+                </Route>
+                <Route exact path="/delete">
+                    <DeletePage />
                 </Route>
                 <Route exact path="/download">
                     <h1>Download</h1>
