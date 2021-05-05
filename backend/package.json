@@ -1,19 +1,18 @@
 {
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server.js"
-  },
+  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "multer": "^1.4.2",
+    "mongoose": "^5.11.15",
     "nodemon": "^2.0.7"
   }
 }
