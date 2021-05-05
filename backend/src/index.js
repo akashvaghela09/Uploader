@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
-const postController = require("./controller/post.controller")
+const filesUploadController = require("./controller/filesUpload.controller")
 
 app.use(express.json())
 
-app.use("/content", postController)
+app.use("/files", filesUploadController)
 
 module.exports = {
     app
