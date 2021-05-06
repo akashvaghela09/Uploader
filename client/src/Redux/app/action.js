@@ -10,7 +10,10 @@ import { POST_FILE_REQUEST,
         GET_PROGRESS,
         DELETE_FILE_REQUEST,
         DELETE_FILE_SUCCESS,
-        DELETE_FILE_FAILURE
+        DELETE_FILE_FAILURE,
+        GET_FILE_LIST_REQUEST,
+        GET_FILE_LIST_SUCCESS,
+        GET_FILE_LIST_FAILURE
 } from '../app/actionType'
 
 const getServerRequest = () => {
@@ -54,6 +57,25 @@ const getFileFailure = () => {
 const postFileRequest = () => {
     return {
         type: POST_FILE_REQUEST     
+    }
+}
+
+const getFileListSuccess = (payload) => {
+    return {
+        type: GET_FILE_LIST_SUCCESS,
+        payload
+    }
+}
+
+const getFileListFailure = () => {
+    return {
+        type: GET_FILE_LIST_FAILURE        
+    }
+}
+
+const getFileListRequest = () => {
+    return {
+        type: GET_FILE_LIST_REQUEST        
     }
 }
 
@@ -108,5 +130,8 @@ export { getFileRequest,
     getProgress,
     deleteFileRequest,
     deleteFileSuccess,
-    deleteFileFailure
+    deleteFileFailure,
+    getFileListRequest,
+    getFileListSuccess,
+    getFileListFailure
 }

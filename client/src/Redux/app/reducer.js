@@ -11,7 +11,10 @@ import {
         GET_PROGRESS,
         DELETE_FILE_SUCCESS,
         DELETE_FILE_FAILURE,
-        DELETE_FILE_REQUEST
+        DELETE_FILE_REQUEST,
+        GET_FILE_LIST_REQUEST,
+        GET_FILE_LIST_SUCCESS,
+        GET_FILE_LIST_FAILURE
 } from './actionType'
 
 const initialState = {
@@ -21,7 +24,8 @@ const initialState = {
     download_url: "",
     progress: 0,
     delete_status: "",
-    code: ""
+    fileData: "",
+    fileList: []
 }
 
 const reducer = (state = initialState, {type, payload}) => {
@@ -34,7 +38,7 @@ const reducer = (state = initialState, {type, payload}) => {
             }
         case POST_FILE_SUCCESS:
             return {
-                code: payload,
+                fileData: payload,
                 isLoading: false,
                 isError: false
             }
@@ -56,6 +60,23 @@ const reducer = (state = initialState, {type, payload}) => {
                 isError: false
             }
         case GET_FILE_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                isError: true
+            }
+        case GET_FILE_LIST_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case GET_FILE_LIST_SUCCESS:
+            return {
+                isLoading: false,
+                fileList: payload,
+                isError: false
+            }
+        case GET_FILE_LIST_FAILURE:
             return {
                 ...state,
                 isLoading: false,
