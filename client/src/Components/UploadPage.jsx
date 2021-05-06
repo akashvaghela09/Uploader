@@ -10,7 +10,6 @@ const UploadPage = () => {
     const progress = useSelector((state) => state.app.progress)
     const isError = useSelector((state) => state.app.isError)
     const fileData = useSelector((state) => state.app.fileData)
-    saveData("email", "akash")
 
     // set by Default email as guest
     if(loadData("email") == undefined){
