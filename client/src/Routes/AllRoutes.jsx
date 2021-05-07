@@ -14,13 +14,13 @@ const Allroutes = () => {
                 <Route exact path="/">
                     <UploadPage />
                 </Route>
-                <Route exact path="/login">
-                    <Login />
-                </Route>
                 <Route exact path="/registration">
                     <Registration />
                 </Route>
-                <Route exact path="/delete">
+                <Route exact path="/login">
+                    <Login />
+                </Route>
+                <Route exact path="/dashboard">
                     <DeletePage />
                 </Route>
                 <Route exact path="/download/:code/:md5/:file" component={DownloadPage}>

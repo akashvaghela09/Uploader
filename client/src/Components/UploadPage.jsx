@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
 import { loadData, saveData } from '../utils/localStorage';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const UploadPage = () => {
     const dispatch = useDispatch()
@@ -10,6 +11,9 @@ const UploadPage = () => {
     const progress = useSelector((state) => state.app.progress)
     const isError = useSelector((state) => state.app.isError)
     const fileData = useSelector((state) => state.app.fileData)
+    const isAuth = useSelector((state) => state.auth.isAuth)
+
+    console.log("Auth: " +isAuth);
 
     // set by Default email as guest
     if(loadData("email") == undefined){
@@ -98,7 +102,7 @@ const UploadPage = () => {
             <input type="file" multiple={false} onChange={handleFileUpload} onClick={() => getActiveServer()}/><br/><br/>
             <button onClick={uploadToServer}>Upload</button><br/><br/>
             {
-                progress > 0 && progress < 100 ? <progress value={progress} max="100"/> : null
+                progress > 0 && progress < 100 ? <CircularProgress variant="determinate" value={progress} /> : null
             }
             {
                 progress == 100 && <h2>File Uploaded</h2>

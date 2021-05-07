@@ -3,7 +3,7 @@
   width: 100vw;
   min-height: 100vh;
   height: fit-content;
-  background-color: #ced6e0;
+  background-color: #F0F2F5;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
