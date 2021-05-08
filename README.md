@@ -1,7 +1,9 @@
 # Uploder
 Uploder is free & easy to use File Upload and data sharing site. with help of uploader files can be shared without any kind of restrictions such as upload limit or transfer limit.
 ### [Demo](https://uploder.vercel.app/)
-=======================
+
+***
+
 ### Tech Stack Used
 Front End   | Back End
 ------------|----------
