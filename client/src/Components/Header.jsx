@@ -1,21 +1,17 @@
 import React from 'react';
-import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Grid } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import styles from "../Styles/Header.module.css"
 import Drawer from '@material-ui/core/Drawer';
-import { Redirect, Route } from 'react-router';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { useSelector } from 'react-redux';
-import Avatar from '@material-ui/core/Avatar';
 import { Logout } from "./Logout"
-import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -53,6 +49,8 @@ function Header() {
   const history = useHistory();
   // const {} = useParams()
   const isAuth = useSelector((state) => state.auth.isAuth)
+  const name = useSelector((state) => state.auth.name)
+  const email = useSelector((state) => state.auth.email)
 
   console.log(isAuth);
   const toggleDrawer = () => {
@@ -65,6 +63,17 @@ function Header() {
           <Drawer anchor="left" open={drawerState} onClose={toggleDrawer}>
             <List  className={classes.drawer} >
               <ListItem>
+              <Grid md>
+              <Typography>
+                <b>Email</b>: {email || "unknown"}
+              </Typography>
+              <Typography>
+                <b>Name</b>: {name || "guest"}
+              </Typography>
+              </Grid>
+              </ListItem>
+              <ListItem>
+              <Divider />
               <Button className={classes.listBtn}  onClick={() => {history.push("/dashboard")}}>Dashboard</Button>
               </ListItem>
               <Divider />
@@ -73,10 +82,7 @@ function Header() {
               </ListItem>
               <Divider />
               <ListItem>
-              <Button  className={classes.listBtn} onClick={() => {history.push("/login")}}>Login</Button>
-              </ListItem>
-              <ListItem>
-              <Button  className={classes.listBtn} onClick={() => {history.push("/registration")}}>Register</Button>
+              <Button  className={classes.listBtn} onClick={() => {history.push("/faq")}}>FAQ</Button>
               </ListItem>
             </List>
           </Drawer>
@@ -85,7 +91,7 @@ function Header() {
             <MenuIcon className={classes.menuIcon} onClick={toggleDrawer}/>
         </Grid>
         <Grid container justify="center" md={4} sm={2} xs={3} className={classes.sitename}>
-            <p className={styles.siteName}>
+            <p onClick={() => {history.push("/")}} className={styles.siteName}>
                 Uploder
             </p>
         </Grid>

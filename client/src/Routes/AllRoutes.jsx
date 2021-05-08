@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { DeletePage } from '../Components/DeletePage';
+import { Dashboard } from '../Components/Dashboard';
 import { DownloadPage } from '../Components/DownloadPage';
 import { Login } from '../Components/Login';
 import { NotFound } from '../Components/NotFound';
@@ -21,7 +21,7 @@ const Allroutes = () => {
                     <Login />
                 </Route>
                 <Route exact path="/dashboard">
-                    <DeletePage />
+                    <Dashboard />
                 </Route>
                 <Route exact path="/download/:code/:md5/:file" component={DownloadPage}>
                     <DownloadPage/>

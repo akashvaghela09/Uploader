@@ -58,6 +58,7 @@ const Login = () => {
                 redirectPage()
         }})
         .catch ((err) => {
+            alert("Login Failed")
             console.log(err);
             dispatch(getUserFailure(err))
         })
@@ -70,7 +71,7 @@ const Login = () => {
     const redirectPage = () => {
         setTimeout(() => {
             history.push("/")
-        }, 2000);
+        }, 500);
     }
 
     return (

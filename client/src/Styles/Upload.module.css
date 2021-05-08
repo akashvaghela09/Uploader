@@ -1,0 +1,42 @@
+.border {
+    border: 1px solid red;
+}
+
+.space {
+    margin: 10px 0px;
+}
+
+.uploadImg {
+    width: 80%;
+    margin-bottom: 20px;
+    margin: 0% 10%;
+    margin-top: 30px;
+}
+
+.uploadBtn {
+    margin-top: 10px 0px;
+    width: 60%;
+    padding: 10px;
+}
+
+.completeCard {
+    background: white;
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 4px 15px 1px rgba(0,0,0,0.56); 
+    box-shadow: 2px 4px 15px 1px rgba(0,0,0,0.56);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 10px;
+    padding-bottom: 10px;
+    height: 90%;
+}
+
+.done {
+    width: 50%;
+}
+
+.doneText {
+    margin-bottom: 20px;
+}
