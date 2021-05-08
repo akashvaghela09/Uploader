@@ -35,7 +35,7 @@ const Login = () => {
         }
         dispatch(getUserRequest())
         
-        axios.post(`https://uploderdb.herokuapp.com/users/login`, config)
+        axios.post(process.env.REACT_APP_USER_LOGIN, config)
         .then((res) => {
             let response = res.data.data.response
             let name = res.data.data.name
