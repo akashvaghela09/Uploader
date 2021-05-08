@@ -1,0 +1,51 @@
+.input {
+    border: 1px solid blue;
+    padding: 30px;
+}
+
+.space {
+    margin: 10px;
+}
+
+.border {
+    border: 1px solid red;
+}
+
+.divider {
+    border-top: 1px solid rgb(212, 212, 212);
+    margin: 10px 0px;
+    margin-top: 20px;
+}
+
+.loginCard {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px 20px;
+    -webkit-box-shadow: 2px 4px 15px 1px rgba(0,0,0,0.56); 
+    box-shadow: 2px 4px 15px 1px rgba(0,0,0,0.56);
+    margin-bottom: 50px;
+}
+
+.loginWrapper {
+    margin-top: 50px;
+}
+
+.regWrapper {
+    margin-top: 30px;
+}
+
+.siteName {
+    font-family: 'Girassol', cursive;
+    font-size: 60px;
+    font-weight: 600;
+    color: #1877F2;
+    /* background: white; */
+    height: fit-content;
+    border-radius: 10px;
+    margin: 0px;
+}
+
+.commonGrid {
+    padding-left: 60px;
+    margin-bottom: 50px;
+}

@@ -3,13 +3,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
 import { loadData, saveData } from '../utils/localStorage';
+import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import styles from "../Styles/Upload.module.css"
+import ProgressArc from 'progress-arc-component'
+import styled from 'styled-components'
 
+const useStyles = makeStyles((theme) => ({
+    uploadBtn: {
+      margin: "10px 25%",
+      width: "50%"
+    },
+    doneBtn: {
+        margin: "10px",
+        width: "70%",
+        padding: "10px"
+    },
+    doneText: {
+        margin: "10px"
+    },
+    grid1 : {
+        marginBottom: "50px"
+    }
+}));
+
+// For Progress Bar
+const StyledProgressArc = styled(ProgressArc)`
+ height: 15em;
+ width: 15em;
+ border-radius: 0.5em;
+ padding: 1em;
+ margin: 100px
+`
 const UploadPage = () => {
     const dispatch = useDispatch()
     const server_name = useSelector((state) => state.app.server_name)
     const progress = useSelector((state) => state.app.progress)
     const isError = useSelector((state) => state.app.isError)
     const fileData = useSelector((state) => state.app.fileData)
+    const classes = useStyles();
 
     // set by Default email as guest
     if(loadData("email") == undefined){
@@ -93,29 +124,38 @@ const UploadPage = () => {
     }
   
     return (
-        <div>
-            <h1>Upload Page</h1>
-            <input type="file" multiple={false} onChange={handleFileUpload} onClick={() => getActiveServer()}/><br/><br/>
-            <button onClick={uploadToServer}>Upload</button><br/><br/>
-            {
-                progress > 0 && progress < 100 ? <progress value={progress} max="100"/> : null
-            }
-            {
-                progress == 100 && <h2>File Uploaded</h2>
-            }
-            {
-                isError && <h1>Something went wrong ...</h1>
-            }
-            {
-                fileData && 
-                <div>
-                    <a href={fileData.directLink} target="_blank" rel="noopener noreferrer">Download</a><br/><br/>
-                    <button onClick={() =>  navigator.clipboard.writeText(fileData.downloadPage)}>Copy Link</button>
-                    <h2>Code: {fileData.code}</h2>
-                    <h2>AdminCode: {fileData.adminCode}</h2>
-                </div> 
-            }
-        </div>
+        <Grid container justify="center" >
+            <Grid container align="center" direction="column"  md={5} xs={10} className={classes.grid1}>
+                <img src="./images/upload.svg" alt="Upload" className={styles.uploadImg}/>
+                <TextField 
+                    type="file" 
+                    className={classes.uploadBtn}
+                    multiple={false} 
+                    onChange={handleFileUpload} 
+                    onClick={() => getActiveServer()}
+                />
+                <Button className={classes.uploadBtn} variant="contained" color="primary" onClick={uploadToServer}>Upload</Button>
+            </Grid>
+            <Grid container justify="center" align="center" md={5} xs={8}>
+                {
+                    progress > 0 && progress < 100 ? <StyledProgressArc arcColor="#1565C0" textColor="#1565C0" value={progress}/> : null
+                }
+                {
+                    isError && <h1>Something went wrong ...</h1>
+                }
+                {
+                    fileData && 
+                    <Grid item md={8} className={styles.completeCard}>
+                        <img src="./images/done.png" alt="Done" className={styles.done}/>
+                        <Typography variant="h5" className={classes.doneText}>
+                            File Uploaded Successfully
+                        </Typography>
+                        <Button className={classes.doneBtn} variant="contained" href={fileData.directLink} target="_blank" rel="noopener noreferrer">Download</Button><br/><br/>
+                        <Button className={classes.doneBtn} variant="contained" color="primary" onClick={() =>  navigator.clipboard.writeText(fileData.downloadPage)}>Copy Link</Button>
+                    </Grid>
+                }
+            </Grid>
+        </Grid>
     )
 }
 

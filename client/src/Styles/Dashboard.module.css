@@ -1,0 +1,15 @@
+.header {
+    background-color: #1565C0;
+}
+
+.header_option {
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.listItem {
+    padding: 15px;
+    border-bottom: 2px solid #1565C0;
+    background-color: rgb(219, 232, 255);
+}
