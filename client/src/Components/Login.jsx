@@ -94,6 +94,7 @@ const Login = () => {
                 />
                 <Grid className={styles.space}/>
                 <TextField 
+                    type="password"
                     id="outlined-primary" 
                     variant="outlined" 
                     required={true} 
