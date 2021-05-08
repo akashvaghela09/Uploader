@@ -13,7 +13,7 @@ import Divider from '@material-ui/core/Divider';
 import { useSelector } from 'react-redux';
 import { Logout } from "./Logout"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   wrapper: {
     width: "100vw",
     padding: "0px 15px",
@@ -47,7 +47,6 @@ function Header() {
   const classes = useStyles();
   const [drawerState, setDrawerState] = React.useState(false);
   const history = useHistory();
-  // const {} = useParams()
   const isAuth = useSelector((state) => state.auth.isAuth)
   const name = useSelector((state) => state.auth.name)
   const email = useSelector((state) => state.auth.email)
@@ -83,6 +82,10 @@ function Header() {
               <Divider />
               <ListItem>
               <Button  className={classes.listBtn} onClick={() => {history.push("/faq")}}>FAQ</Button>
+              </ListItem>
+              <Divider />
+              <ListItem>
+              <Button  className={classes.listBtn} onClick={()=> window.open("https://github.com/akashvaghela09/uploader", "_blank")} >GitHub</Button>
               </ListItem>
             </List>
           </Drawer>

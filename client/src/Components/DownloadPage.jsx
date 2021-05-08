@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
 const DownloadPage = () => {
     const { code, md5, file } = useParams();
     const classes = useStyles();
@@ -18,7 +17,7 @@ const DownloadPage = () => {
     return (
         <Grid container justify="center">
             <Grid container direction="column" md={10} justify="center" alignItems="center">
-                <img src="https://icons.iconarchive.com/icons/gakuseisean/ivista-2/256/Network-Download-icon.png" alt="Upload" />
+                <img src="https://tgdown.eu-gb.mybluemix.net/15117187865214912/cloud.svg" alt="Download" width="30%" style={{marginTop: "30px"}}/>
                 <Button className={classes.dwlBtn} onClick={()=> window.open(url, "_blank")} variant="contained" color="primary">Download</Button>
             </Grid>
         </Grid>
