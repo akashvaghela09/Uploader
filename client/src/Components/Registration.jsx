@@ -36,7 +36,7 @@ const Registration = () => {
         }
 
         dispatch(postUserRequest())
-        axios.post(`https://uploderdb.herokuapp.com/users`, userData)
+        axios.post(process.env.REACT_APP_USER_POST, userData)
         .then((res) => {
             dispatch(postUserSuccess())
             console.log(res);
@@ -79,6 +79,7 @@ const Registration = () => {
                 />
                 <Grid className={styles.space}/>
                 <TextField 
+                    type="password"
                     id="outlined-primary" 
                     variant="outlined" 
                     required={true} 
