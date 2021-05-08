@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
 import { loadData, saveData } from '../utils/localStorage';
-import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import styles from "../Styles/Upload.module.css"
 import ProgressArc from 'progress-arc-component'
 import styled from 'styled-components'
@@ -11,7 +11,6 @@ import styled from 'styled-components'
 const useStyles = makeStyles((theme) => ({
     uploadBtn: {
       margin: "10px 25%",
-      padding: "10px",
       width: "50%"
     },
     doneBtn: {
@@ -128,22 +127,14 @@ const UploadPage = () => {
         <Grid container justify="center" >
             <Grid container align="center" direction="column"  md={5} xs={10} className={classes.grid1}>
                 <img src="./images/upload.svg" alt="Upload" className={styles.uploadImg}/>
-                <Button
-                    variant="contained"
-                    component="label"
+                <TextField 
+                    type="file" 
                     className={classes.uploadBtn}
-                >
-                    Browse
-                    <input
-                        type="file"
-                        hidden
-                        multiple={false} 
-                        onChange={handleFileUpload} 
-                        onClick={() => getActiveServer()}
-                    />
-                </Button>
+                    multiple={false} 
+                    onChange={handleFileUpload} 
+                    onClick={() => getActiveServer()}
+                />
                 <Button className={classes.uploadBtn} variant="contained" color="primary" onClick={uploadToServer}>Upload</Button>
-                
             </Grid>
             <Grid container justify="center" align="center" md={5} xs={8}>
                 {
