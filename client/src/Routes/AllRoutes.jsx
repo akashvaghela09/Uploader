@@ -27,7 +27,7 @@ const Allroutes = () => {
                 <Route exact path="/faq">
                     <FAQ />
                 </Route>
-                <Route exact path="/download/:code/:md5/:file" component={DownloadPage}>
+                <Route exact path="/download/:store/:fileId/:fileName" component={DownloadPage}>
                     <DownloadPage/>
                 </Route>
                 <Route>
