@@ -48,8 +48,6 @@ const Login = () => {
                 }
                 dispatch(getUserSuccess(payload))
                 
-                console.log(payload);
-
                 alert("Login Succefull")
 
                 saveData("email", email)
