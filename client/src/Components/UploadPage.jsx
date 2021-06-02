@@ -112,9 +112,6 @@ const UploadPage = () => {
                 "directLink": res.data.data.directLink,
                 "downloadPage": `https://uploder.vercel.app/download/${store}/${res.data.data.fileId}/${serverFileName}`
             })
-            .then((res) => {
-                console.log(res);
-            })
 
             dispatch(postFileAction)
         })
