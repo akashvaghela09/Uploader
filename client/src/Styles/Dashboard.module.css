@@ -13,3 +13,9 @@
     border-bottom: 2px solid #1565C0;
     background-color: rgb(219, 232, 255);
 }
+
+.emptyList {
+    font-size: 60px;
+    padding-top: 200px;
+    color: #0D47A1;
+}

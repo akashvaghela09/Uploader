@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { deleteFileFailure, deleteFileRequest, deleteFileSuccess, getFileListFailure, getFileListRequest} from '../Redux/app/action';
 import { loadData } from '../utils/localStorage';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Typography } from '@material-ui/core';
 import styles from "../Styles/Dashboard.module.css";
 import { Redirect } from 'react-router';
 
@@ -16,16 +16,10 @@ const Dashboard = () => {
     const handleDelete = (code, adminCode, _id) => {
         dispatch(deleteFileRequest())
 
-        axios.get(`https://api.gofile.io/deleteUpload?c=${code}&ac=${adminCode}`)
-        .then((res)=> {
-            dispatch(deleteFileSuccess(res.data.status))
-        })
-        .catch((err)=> {
-            const serverErr = deleteFileFailure(err)
-            dispatch(serverErr)
-        })
-
         axios.delete(`${process.env.REACT_APP_MONGO_URL}/${_id}`)
+        .then(() => {
+            dispatch(deleteFileSuccess())
+        })
         .catch((err)=> {
             const serverErr = deleteFileFailure(err)
             dispatch(serverErr)
@@ -39,6 +33,7 @@ const Dashboard = () => {
         dispatch(getFileListRequest())
         axios.get(process.env.REACT_APP_MONGO_URL)
         .then((res) => {
+            console.log(res.data.data)
             const newData = res.data.data.filter((el) => el.email == email)
             setFileList(newData)
         })
@@ -57,6 +52,11 @@ const Dashboard = () => {
             return `${(num / 1024 / 1024).toFixed(2)} MB`
         }
     }
+
+    useEffect(() => {
+        getList()
+    }, []);
+
     if(isAuth !== true){
         return <Redirect to="/"/>
     }
@@ -65,9 +65,13 @@ const Dashboard = () => {
         getList()
     }
 
+
     return (
         <Grid container justify="center">
-            <Grid container md={10} sm={10} xs={10} justify="center">
+            {
+                fileList.length > 0 ?
+
+                <Grid container md={10} sm={10} xs={10} justify="center">
                 <Grid container justify="center" className={styles.header}>
                     <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Name</Grid>
                     <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Size</Grid>
@@ -93,7 +97,8 @@ const Dashboard = () => {
                     </Grid>
                     ) : null
                 }
-            </Grid>
+            </Grid> : <Typography className={styles.emptyList} variant="p">Uploads Not Found</Typography>
+            }
         </Grid>
     )
 }
