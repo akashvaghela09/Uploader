@@ -39,7 +39,6 @@ const reducer = (state = initialState, {type, payload}) => {
                 isLoading: true,
             }
         case GET_USER_SUCCESS:
-            console.log(payload);
             return {
                 isAuth: payload.isAuth,
                 name: payload.name,

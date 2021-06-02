@@ -36,10 +36,10 @@ const Registration = () => {
         }
 
         dispatch(postUserRequest())
+
         axios.post(process.env.REACT_APP_USER_POST, userData)
         .then((res) => {
             dispatch(postUserSuccess())
-            console.log(res);
             redirectToLogin()
         }).catch = (err) => {
             dispatch(postUserFailure())

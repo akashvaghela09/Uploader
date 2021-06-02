@@ -51,7 +51,6 @@ function Header() {
   const name = useSelector((state) => state.auth.name)
   const email = useSelector((state) => state.auth.email)
 
-  console.log(isAuth);
   const toggleDrawer = () => {
     setDrawerState(!drawerState);
   };

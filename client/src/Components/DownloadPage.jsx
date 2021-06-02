@@ -1,6 +1,7 @@
-import { Button, Grid, makeStyles } from '@material-ui/core';
-import React from 'react';
+import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import axios from "axios"
 
 const useStyles = makeStyles((theme) => ({
     dwlBtn: {
@@ -10,14 +11,46 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DownloadPage = () => {
-    const { code, md5, file } = useParams();
+    const { store, fileId , fileName } = useParams();
+    const [name, setName] = useState("");
+    const [size, setSize] = useState("");
     const classes = useStyles();
+    
+    const url = `https://${store}.gofile.io/download/${fileId}/${fileName}`
+    
+    const getFileInfo = () => {
+        axios.get(`https://uploderdb.herokuapp.com/files`)
+        .then((res) => {
+            let list = res.data.data
 
-    const url = `https://srv-store2.gofile.io/download/${code}/${md5}/${file}`
+            for(let i = 0; i < list.length; i++){
+                if(list[i].fileId === fileId){
+                    setName(list[i].fileName)
+                    setSize(checkSize(list[i].fileSize))
+                }
+            }
+        })
+    }
+
+    const checkSize = (num) => {
+        if(num < 1024){
+            return `${num} Bytes`
+        } else if (num >= 1024 && num < 1048576){
+            return `${(num / 1024).toFixed(2)} KB`
+        } else if (num >= 1048576){
+            return `${(num / 1024 / 1024).toFixed(2)} MB`
+        }
+    }
+    
+    useEffect(() => {
+        getFileInfo()
+    }, []);
     return (
         <Grid container justify="center">
             <Grid container direction="column" md={10} justify="center" alignItems="center">
-                <img src="https://tgdown.eu-gb.mybluemix.net/15117187865214912/cloud.svg" alt="Download" width="30%" style={{marginTop: "30px"}}/>
+                <img src="https://graphiccave.com/wp-content/uploads/2015/04/Downloads-Icon-PNG-Graphic-Cave.png" alt="Download" width="30%" style={{marginTop: "30px"}}/>
+                <Typography><b>File: </b>{name}</Typography>
+                <Typography><b>Size: </b>{size}</Typography>
                 <Button className={classes.dwlBtn} onClick={()=> window.open(url, "_blank")} variant="contained" color="primary">Download</Button>
             </Grid>
         </Grid>

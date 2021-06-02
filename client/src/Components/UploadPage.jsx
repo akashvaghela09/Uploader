@@ -43,7 +43,7 @@ const UploadPage = () => {
     const classes = useStyles();
 
     // set by Default email as guest
-    if(loadData("email") == undefined){
+    if(loadData("email") === undefined){
         saveData("email", "guest")
     } else {
         console.log(loadData("email"));
@@ -62,7 +62,7 @@ const UploadPage = () => {
 
     const uploadToServer = () => {
         dispatch(postFileRequest())
-       
+
         // upload file on gofile api server
         axios.post(`https://${server_name}.gofile.io/uploadFile`, formData, {
             onUploadProgress: function(progressEvent) {
@@ -72,32 +72,45 @@ const UploadPage = () => {
         }
         )
         .then((res)=> {
+            let store = ""
+            let serverFileName = ""
+            let tempLink = res.data.data.directLink.split("").splice(8).join("")
+            
+            for(let i = 0; i < tempLink.length; i++){
+                if(tempLink[i] === "."){
+                    break;
+                }
+                store += tempLink[i]
+            }
+
+            for(let i = tempLink.length - 1; i >= 0; i--){
+                if(tempLink[i] === "/"){
+                    break;
+                }
+                serverFileName = tempLink[i] + serverFileName
+            }
 
             let fileInfo = {
                 "email": email,
-                "code": res.data.data.code,
-                "adminCode": res.data.data.adminCode,
                 "fileName": res.data.data.fileName,
                 "fileSize": file.size,
-                "md5": res.data.data.md5,
+                "fileId": res.data.data.fileId,
+                "store" : store,
                 "directLink": res.data.data.directLink,
-                "downloadPage": `https://uploder.vercel.app/download/${res.data.data.code}/${res.data.data.md5}/${res.data.data.fileName}`
+                "downloadPage": `https://uploder.vercel.app/download/${store}/${res.data.data.fileId}/${serverFileName}`
             }
+
             const postFileAction = postFileSuccess(fileInfo)
 
             // upload file data on mongodb server
             axios.post(process.env.REACT_APP_MONGO_URL, {
                 "email": email,
-                "code": res.data.data.code,
-                "adminCode": res.data.data.adminCode,
                 "fileName": res.data.data.fileName,
                 "fileSize": fileSize,
-                "md5": res.data.data.md5,
+                "fileId": res.data.data.fileId,
+                "store" : store,
                 "directLink": res.data.data.directLink,
-                "downloadPage": `https://uploder.vercel.app/download/${res.data.data.code}/${res.data.data.md5}/${res.data.data.fileName}`
-            })
-            .then((res) => {
-                console.log(res);
+                "downloadPage": `https://uploder.vercel.app/download/${store}/${res.data.data.fileId}/${serverFileName}`
             })
 
             dispatch(postFileAction)
