@@ -19,10 +19,16 @@ const DownloadPage = () => {
     const url = `https://${store}.gofile.io/download/${fileId}/${fileName}`
     
     const getFileInfo = () => {
-        axios.get(`https://uploderdb.herokuapp.com/files?q=${fileId}`)
+        axios.get(`https://uploderdb.herokuapp.com/files`)
         .then((res) => {
-            setName(res.data.data[0].fileName)
-            setSize(checkSize(res.data.data[0].fileSize))
+            let list = res.data.data
+
+            for(let i = 0; i < list.length; i++){
+                if(list[i].fileId === fileId){
+                    setName(list[i].fileName)
+                    setSize(checkSize(list[i].fileSize))
+                }
+            }
         })
     }
 
