@@ -60,9 +60,10 @@
   .loaderDiv {
     width: 114px;
     height: 114px;
-    position: fixed;
-    left: 45vw;
-    top: 45vh;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform:translate(-50%,-50%);
     display: inline-block;
     overflow: hidden;
   }
