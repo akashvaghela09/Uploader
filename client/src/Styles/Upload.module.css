@@ -31,6 +31,7 @@
     padding: 20px 10px;
     padding-bottom: 10px;
     height: 90%;
+    position: relative;
 }
 
 .done {
@@ -39,4 +40,15 @@
 
 .doneText {
     margin-bottom: 20px;
+}
+
+.cardCloseDiv {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.cardCloseIcon {
+    color: rgb(160, 160, 160);
+    cursor: pointer;
 }

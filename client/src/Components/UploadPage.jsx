@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import { Button, Grid, makeStyles, TextField, Typography } from '@material-ui/co
 import styles from "../Styles/Upload.module.css"
 import ProgressArc from 'progress-arc-component'
 import styled from 'styled-components'
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { getUserSuccess } from '../Redux/auth/action';
 
 const useStyles = makeStyles((theme) => ({
     uploadBtn: {
@@ -39,14 +41,19 @@ const UploadPage = () => {
     const server_name = useSelector((state) => state.app.server_name)
     const progress = useSelector((state) => state.app.progress)
     const isError = useSelector((state) => state.app.isError)
-    const fileData = useSelector((state) => state.app.fileData)
+    let fileData = useSelector((state) => state.app.fileData)
     const classes = useStyles();
 
     // set by Default email as guest
-    if(loadData("email") === undefined){
+    if(loadData("email") === null){
         saveData("email", "guest")
-    } else {
-        console.log(loadData("email"));
+    } else if (loadData("email") !== "guest"){
+        let payload = {
+            isAuth : true,
+            name : loadData("name"),
+            email : loadData("email")
+        }
+        dispatch(getUserSuccess(payload))
     }
 
     let file;
@@ -135,6 +142,10 @@ const UploadPage = () => {
             dispatch(serverErr)
         })
     }
+
+    const handleCardReset = () => {
+        dispatch(postFileSuccess(""))
+    }
   
     return (
         <Grid container justify="center" >
@@ -159,6 +170,9 @@ const UploadPage = () => {
                 {
                     fileData && 
                     <Grid item md={8} className={styles.completeCard}>
+                        <div className={styles.cardCloseDiv}>
+                            <HighlightOffIcon onClick={handleCardReset}  className={styles.cardCloseIcon}/>
+                        </div>
                         <img src="./images/done.png" alt="Done" className={styles.done}/>
                         <Typography variant="h5" className={classes.doneText}>
                             File Uploaded Successfully
