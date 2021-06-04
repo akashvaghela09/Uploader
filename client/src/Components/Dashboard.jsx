@@ -13,7 +13,7 @@ const Dashboard = () => {
     const email = loadData("email")
     const isAuth = useSelector((state) => state.auth.isAuth)
 
-    const handleDelete = (code, adminCode, _id) => {
+    const handleDelete = (_id) => {
         dispatch(deleteFileRequest())
 
         axios.delete(`${process.env.REACT_APP_MONGO_URL}/${_id}`)
@@ -24,9 +24,6 @@ const Dashboard = () => {
             const serverErr = deleteFileFailure(err)
             dispatch(serverErr)
         })
-
-        const newData = fileList.filter((el) => el._id !== _id)
-        setFileList(newData)
     }
 
     const getList = () => {
@@ -90,7 +87,7 @@ const Dashboard = () => {
                         <Grid className={styles.listItem} container justify="center" md={3} sm={3} xs={3}>
                             <Button variant="contained" 
                                 color="primary" 
-                                onClick={() => handleDelete(el.code, el.adminCode, el._id)}
+                                onClick={() => handleDelete(el._id)}
                             >   Delete File
                             </Button>
                         </Grid>
