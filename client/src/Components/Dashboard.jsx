@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { deleteFileFailure, deleteFileRequest, deleteFileSuccess, getFileListFailure, getFileListRequest} from '../Redux/app/action';
+import { deleteFileFailure, deleteFileRequest, deleteFileSuccess, getFileListFailure, getFileListRequest, getFileListSuccess} from '../Redux/app/action';
 import { loadData } from '../utils/localStorage';
 import { Button, Grid, Typography } from '@material-ui/core';
 import styles from "../Styles/Dashboard.module.css";
@@ -15,15 +15,16 @@ const Dashboard = () => {
 
     const handleDelete = (_id) => {
         dispatch(deleteFileRequest())
-
+        
         axios.delete(`${process.env.REACT_APP_MONGO_URL}/${_id}`)
         .then(() => {
-            dispatch(deleteFileSuccess())
+            getList()
         })
         .catch((err)=> {
             const serverErr = deleteFileFailure(err)
             dispatch(serverErr)
         })
+        dispatch(deleteFileSuccess())
     }
 
     const getList = () => {
@@ -32,6 +33,7 @@ const Dashboard = () => {
         .then((res) => {
             console.log(res.data.data)
             const newData = res.data.data.filter((el) => el.email == email)
+            dispatch(getFileListSuccess([]))
             setFileList(newData)
         })
         .catch((err)=> {
@@ -58,7 +60,7 @@ const Dashboard = () => {
         return <Redirect to="/"/>
     }
 
-    if(email !== "guest"){
+    if(email !== "guest" && fileList.length === 0){
         getList()
     }
 
