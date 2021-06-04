@@ -1,4 +1,4 @@
-import { clearData } from '../utils/localStorage';
+import { clearData, saveData } from '../utils/localStorage';
 import { useDispatch } from 'react-redux';
 import { getUserSuccess } from '../Redux/auth/action';
 import { Button } from '@material-ui/core';
@@ -14,6 +14,7 @@ const Logout = () => {
 
     const handleLogOut = () => {
         clearData()
+        saveData("email", "guest")
         dispatch(getUserSuccess(payload))
     }
 
