@@ -33,12 +33,13 @@ const Dashboard = () => {
         .then((res) => {
             console.log(res.data.data)
             const newData = res.data.data.filter((el) => el.email == email)
-            dispatch(getFileListSuccess([]))
             setFileList(newData)
+            dispatch(getFileListSuccess([]))
         })
         .catch((err)=> {
             const serverErr = getFileListFailure()
             dispatch(serverErr)
+            dispatch(getFileListSuccess([]))
         })
     }
 
