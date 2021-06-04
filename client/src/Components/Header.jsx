@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import { useSelector } from 'react-redux';
 import { Logout } from "./Logout"
+import { LoadingSpiner } from './LoadingSpiner';
 
 const useStyles = makeStyles(() => ({
   wrapper: {
@@ -50,6 +51,8 @@ function Header() {
   const isAuth = useSelector((state) => state.auth.isAuth)
   const name = useSelector((state) => state.auth.name)
   const email = useSelector((state) => state.auth.email)
+  const authloading = useSelector((state) => state.auth.isLoading)
+  const apploading = useSelector((state) => state.app.isLoading)
 
   const toggleDrawer = () => {
     setDrawerState(!drawerState);
@@ -88,6 +91,9 @@ function Header() {
               </ListItem>
             </List>
           </Drawer>
+        }
+        {
+          authloading || apploading ? <LoadingSpiner /> : null
         }
         <Grid container justify="flex-start" md={4} sm={2} xs={3}  className={classes.icon}>
             <MenuIcon className={classes.menuIcon} onClick={toggleDrawer}/>
