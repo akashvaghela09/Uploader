@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProgress, getServerFailure, getServerRequest, getServerSuccess, postFileFailure, postFileRequest, postFileSuccess } from '../Redux/app/action';
 import axios from 'axios';
@@ -43,6 +43,9 @@ const UploadPage = () => {
     const isError = useSelector((state) => state.app.isError)
     let fileData = useSelector((state) => state.app.fileData)
     const classes = useStyles();
+    const date = new Date().toDateString()
+    const tempTime = new Date().toTimeString().split(" ")
+    const time = tempTime[0]
 
     // set by Default email as guest
     if(loadData("email") === null){
@@ -103,6 +106,8 @@ const UploadPage = () => {
                 "fileSize": file.size,
                 "fileId": res.data.data.fileId,
                 "store" : store,
+                "date": date,
+                "time": time,
                 "directLink": res.data.data.directLink,
                 "downloadPage": `https://uploder.vercel.app/download/${store}/${res.data.data.fileId}/${serverFileName}`
             }
@@ -116,6 +121,8 @@ const UploadPage = () => {
                 "fileSize": fileSize,
                 "fileId": res.data.data.fileId,
                 "store" : store,
+                "date": date,
+                "time": time,
                 "directLink": res.data.data.directLink,
                 "downloadPage": `https://uploder.vercel.app/download/${store}/${res.data.data.fileId}/${serverFileName}`
             })
