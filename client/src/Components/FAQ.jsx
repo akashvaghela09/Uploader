@@ -54,7 +54,7 @@ const FAQ = () => {
                 id="panel2a-header"
                 className={classes.headerBG}
                 >
-                <Typography className={classes.heading}><b>Do i need to Register ?</b></Typography>
+                <Typography className={classes.heading}><b>Do I need to Register ?</b></Typography>
                 </AccordionSummary>
                 <AccordionDetails >
                 <Typography>
