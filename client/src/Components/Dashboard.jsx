@@ -74,20 +74,24 @@ const Dashboard = () => {
                 <Grid container md={10} sm={10} xs={10} justify="center">
                 <Grid container justify="center" className={styles.header}>
                     <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Name</Grid>
-                    <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Size</Grid>
-                    <Grid container justify="center" md={3} sm={3} xs={3} className={styles.header_option}> Download Page</Grid>
-                    <Grid container justify="center" md={3} sm={3} xs={3} className={styles.header_option}> Delete File</Grid>
+                    <Grid container justify="flex-start" md={2} sm={2} xs={2} className={styles.header_option}> Size</Grid>
+                    <Grid container justify="flex-start" md={2} sm={2} xs={2} className={styles.header_option}> Date</Grid>
+                    <Grid container justify="flex-start" md={1} sm={1} xs={1} className={styles.header_option}> Time</Grid>
+                    <Grid container justify="center" md={2} sm={2} xs={2} className={styles.header_option}> Download Page</Grid>
+                    <Grid container justify="center" md={2} sm={2} xs={2} className={styles.header_option}> Delete File</Grid>
                 </Grid>
                 {
                     fileList ? fileList.map((el) => 
 
                     <Grid container md={12} >
                         <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={3} sm={3} xs={3}>{el.fileName}</Grid>
-                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={3} sm={3} xs={3}>{checkSize(el.fileSize)}</Grid>
-                        <Grid className={styles.listItem} container justify="center" md={3} sm={3} xs={3}>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={2} sm={2} xs={2}>{checkSize(el.fileSize)}</Grid>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={2} sm={2} xs={2}>{el.date}</Grid>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={1} sm={1} xs={1}>{el.time}</Grid>
+                        <Grid className={styles.listItem} container justify="center" md={2} sm={2} xs={2}>
                             <Button variant="contained" color="primary" onClick={()=> window.open(el.downloadPage, "_blank")}>Download File</Button>
                         </Grid>
-                        <Grid className={styles.listItem} container justify="center" md={3} sm={3} xs={3}>
+                        <Grid className={styles.listItem} container justify="center" md={2} sm={2} xs={2}>
                             <Button variant="contained" 
                                 color="primary" 
                                 onClick={() => handleDelete(el._id)}
