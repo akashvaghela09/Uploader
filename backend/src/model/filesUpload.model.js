@@ -7,6 +7,8 @@ const filesUploadSchema = new mongoose.Schema(
         fileSize: {type:Number, required: true},
         fileId: {type: String, required: true},
         store: {type: String, required: true},
+        date: {type: String, required: true},
+        time: {type: String, required: true},
         directLink: {type:String, required: true},
         downloadPage: {type:String, required: true}
     }, 

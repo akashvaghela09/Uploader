@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { deleteFileFailure, deleteFileRequest, deleteFileSuccess, getFileListFailure, getFileListRequest} from '../Redux/app/action';
+import { deleteFileFailure, deleteFileRequest, deleteFileSuccess, getFileListFailure, getFileListRequest, getFileListSuccess} from '../Redux/app/action';
 import { loadData } from '../utils/localStorage';
 import { Button, Grid, Typography } from '@material-ui/core';
 import styles from "../Styles/Dashboard.module.css";
@@ -13,20 +13,18 @@ const Dashboard = () => {
     const email = loadData("email")
     const isAuth = useSelector((state) => state.auth.isAuth)
 
-    const handleDelete = (code, adminCode, _id) => {
+    const handleDelete = (_id) => {
         dispatch(deleteFileRequest())
-
+        
         axios.delete(`${process.env.REACT_APP_MONGO_URL}/${_id}`)
         .then(() => {
-            dispatch(deleteFileSuccess())
+            getList()
         })
         .catch((err)=> {
             const serverErr = deleteFileFailure(err)
             dispatch(serverErr)
         })
-
-        const newData = fileList.filter((el) => el._id !== _id)
-        setFileList(newData)
+        dispatch(deleteFileSuccess())
     }
 
     const getList = () => {
@@ -36,10 +34,12 @@ const Dashboard = () => {
             console.log(res.data.data)
             const newData = res.data.data.filter((el) => el.email == email)
             setFileList(newData)
+            dispatch(getFileListSuccess([]))
         })
         .catch((err)=> {
             const serverErr = getFileListFailure()
             dispatch(serverErr)
+            dispatch(getFileListSuccess([]))
         })
     }
 
@@ -61,7 +61,7 @@ const Dashboard = () => {
         return <Redirect to="/"/>
     }
 
-    if(email !== "guest"){
+    if(email !== "guest" && fileList.length === 0){
         getList()
     }
 
@@ -74,23 +74,27 @@ const Dashboard = () => {
                 <Grid container md={10} sm={10} xs={10} justify="center">
                 <Grid container justify="center" className={styles.header}>
                     <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Name</Grid>
-                    <Grid container justify="flex-start" md={3} sm={3} xs={3} className={styles.header_option}> File Size</Grid>
-                    <Grid container justify="center" md={3} sm={3} xs={3} className={styles.header_option}> Download Page</Grid>
-                    <Grid container justify="center" md={3} sm={3} xs={3} className={styles.header_option}> Delete File</Grid>
+                    <Grid container justify="flex-start" md={2} sm={2} xs={2} className={styles.header_option}> Size</Grid>
+                    <Grid container justify="flex-start" md={2} sm={2} xs={2} className={styles.header_option}> Date</Grid>
+                    <Grid container justify="flex-start" md={1} sm={1} xs={1} className={styles.header_option}> Time</Grid>
+                    <Grid container justify="center" md={2} sm={2} xs={2} className={styles.header_option}> Download Page</Grid>
+                    <Grid container justify="center" md={2} sm={2} xs={2} className={styles.header_option}> Delete File</Grid>
                 </Grid>
                 {
                     fileList ? fileList.map((el) => 
 
                     <Grid container md={12} >
                         <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={3} sm={3} xs={3}>{el.fileName}</Grid>
-                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={3} sm={3} xs={3}>{checkSize(el.fileSize)}</Grid>
-                        <Grid className={styles.listItem} container justify="center" md={3} sm={3} xs={3}>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={2} sm={2} xs={2}>{checkSize(el.fileSize)}</Grid>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={2} sm={2} xs={2}>{el.date}</Grid>
+                        <Grid className={styles.listItem} container alignItems="center" justify="flex-start" md={1} sm={1} xs={1}>{el.time}</Grid>
+                        <Grid className={styles.listItem} container justify="center" md={2} sm={2} xs={2}>
                             <Button variant="contained" color="primary" onClick={()=> window.open(el.downloadPage, "_blank")}>Download File</Button>
                         </Grid>
-                        <Grid className={styles.listItem} container justify="center" md={3} sm={3} xs={3}>
+                        <Grid className={styles.listItem} container justify="center" md={2} sm={2} xs={2}>
                             <Button variant="contained" 
                                 color="primary" 
-                                onClick={() => handleDelete(el.code, el.adminCode, el._id)}
+                                onClick={() => handleDelete(el._id)}
                             >   Delete File
                             </Button>
                         </Grid>
